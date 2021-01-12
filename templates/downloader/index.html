@@ -1,17 +1,45 @@
-{% extends './base.html' %}
+{% extends '../base.html' %}
 {% block content %}
 
-<div class="container">
+<div class="container mt-5 text-center">
     <h1>
         Champ Downloader
     </h1>
-    <h3 class="secondary">
+    <h6 class="text-muted text-center">
         The best youtube downloader for single video, audio and playlist
-    </h3>
+    </h6>
 
-    <div class="container">
-
+    <div class="container mt-5">
+        <select class="form-select form-select-sm mb-3" aria-label=".form-select-sm example">
+            <option selected>Choose your resolution type</option>
+            <option value="1">One</option>
+            <option value="2">Two</option>
+            <option value="3">Three</option>
+        </select>
+        <div class="input-group mb-3">
+            <span class="input-group-text" id="basic-addon3"> Start Video Number </span>
+            <input type="number" class="form-control" id="basic-url" aria-describedby="basic-addon3">
+        </div>
+        <div class="input-group mb-3">
+            <span class="input-group-text" id="basic-addon3"> End Video Number </span>
+            <input type="number" class="form-control" id="basic-url" aria-describedby="basic-addon3">
+        </div>
+        <div class="input-group mb-3">
+            <span class="input-group-text" id="basic-addon3">Youtube Link</span>
+            <input type="text" class="form-control" id="basic-url" aria-describedby="basic-addon3">
+        </div>
     </div>
+
+    <div class="container spinner_cont mt-5">
+        <div class="d-flex align-items-center">
+            <strong>Downloading videos...</strong>
+            <div class="spinner-border ms-auto" role="status" aria-hidden="true"></div>
+        </div>
+        <div class="container">
+            <a href="#"> <span class="d-flex justify-content-center"> <ion-icon name="cloud-download-outline" class="mx-2" size="large"></ion-icon> Click Here to Download the .zip file</span> </a> 
+        </div>
+    </div>  
+
 </div>
 
 {% endblock content %}
