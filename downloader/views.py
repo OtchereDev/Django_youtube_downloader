@@ -1,11 +1,9 @@
 from django.shortcuts import render
-import pytube
-import os
-import shutil
-from os import path
+from .helpers import (file_zipper,playlist_id_maker,
+                    playlist_downloader,single_download)
 
 
-# from pytube import YouTube
+from pytube import YouTube
 
 # playlist=pytube.Playlist('https://www.youtube.com/watch?v=sakQbeRjgwg&list=PL4cUxeGkcC9jdm7QX143aMLAqyM-jTZ2x&index=1')
 # playlist._video_regex = re.compile(r"\"url\":\"(/watch\?v=[\w-]*)")
@@ -24,19 +22,22 @@ from os import path
 # python -m pip install git+https://github.com/nficano/pytube  correct pytube-plugin
 
 def home(request):
-    youtube = pytube.YouTube('https://www.youtube.com/watch?v=JLqsrofwPdI')
-    video = youtube.streams.first()
-    video.download('media')
+
     return render(request,'downloader/index.html')
 
 
-def main():
+def downloader(request):
 
-    if path.exists('media/screen'):
-        src= path.realpath('media/screen')
-        print(src)
+    if request.method=='POST':
+        body=request.body
+        if body.playlist:           
+            playlist_downloader(body)
 
-    root_dir,tail=path.split(src)
-    shutil.make_archive('media/screen_zip','zip',src)
+        else:
+            single_download(body)
 
-main()
+            
+
+
+
+# main()
