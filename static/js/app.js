@@ -29,24 +29,10 @@ function submitRequest(){
     const upper_limit_val = upper_limit.value
     const url_link_val = url_link.value
 
-    // if(!lower_limit_val){
-    //     lower_limit.style.borderColor = 'Red'
-    //     console.log(lower_limit.style)
-
-    // }else{
-    //     lower_limit.style.borderColor = ''
-    // }
-
     validateInput(resolution)
     validateInput(upper_limit)
     validateInput(lower_limit)
     validateInput(url_link)
-
-    // if (resolution_val && lower_limit_val && upper_limit_val && url_link_val){
-
-    // }else if (!resol) {
-        
-    // }
 
     console.log(resolution_val,
         lower_limit_val,
@@ -56,18 +42,14 @@ function submitRequest(){
 
 
 function validateInput(input_type){
-    const resolution_val = resolution.value
-    const lower_limit_val = lower_limit.value
-    const upper_limit_val = upper_limit.value
-    const url_link_val = url_link.value
+
 
     if(input_type==resolution){
-        if(resolution_val=='Choose your resolution type'){
+        if(input_type.value=='Choose your resolution type'){
             resolution.style.borderColor='Red'
         }else{
             resolution.style.borderColor='' 
         }
-        // console.log('here')
 
     } else {
         if(!input_type.value){
@@ -78,7 +60,6 @@ function validateInput(input_type){
             input_type.style.borderColor=''
         }
 
-        // console.log('here')
     }
 }
 

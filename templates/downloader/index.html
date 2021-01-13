@@ -2,23 +2,36 @@
 {% load static %}
 {% block content %}
 
-<div class="container mt-5 text-center">
-    <h1>
+<div class="container mt-5 ">
+    <h1 class="text-center">
         Champ Downloader
     </h1>
     <h6 class="text-muted text-center">
         The best youtube downloader for single video, audio and playlist
     </h6>
 
-    <div class="container mt-5">
+    <div class="container mt-5 text-left">
         <form  class="form-class downloader_form">
             {% csrf_token %}
-            <select class="form-select form-select-sm mb-3 resolution" aria-label=".form-select-sm example">
+            <select class="form-select form-select-sm mb-3 py-2 resolution" aria-label=".form-select-sm example">
                 <option>Choose your resolution type</option>
                 <option value="1">One</option>
                 <option value="2">Two</option>
                 <option value="3">Three</option>
             </select>
+                <label for="exampleFormControlInput1" class="form-label">Type of Download: </label>
+            <div class="form-check  text-left mx-5">
+                <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1">
+                <label class="form-check-label" for="flexRadioDefault1">
+                    Playlist Download
+                </label>
+                </div>
+                <div class="form-check mb-3 mx-5">
+                <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2" checked>
+                <label class="form-check-label" for="flexRadioDefault2">
+                    Single Download
+                </label>
+            </div>
                 <div class="input-group mb-3">
                     <span class="input-group-text" id="basic-addon3"> Start Video Number </span>
                     <input type="number" class="form-control lower_limit" id="basic-url" aria-describedby="basic-addon3">
@@ -31,7 +44,9 @@
                     <span class="input-group-text" id="basic-addon3">Youtube Link</span>
                     <input type="text" class="form-control url_link" id="basic-url" aria-describedby="basic-addon3">
                 </div>
-            <button type="submit" class="btn btn-primary btn-block submit_btn">Start Downloading ...</button>
+                <div class="d-grid gap-2">
+                    <button type="submit" class="btn btn-primary btn-block submit_btn">Start Downloading ...</button>
+                </div>
 
             </div>
         </form>
