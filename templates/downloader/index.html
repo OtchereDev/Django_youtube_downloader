@@ -1,4 +1,5 @@
 {% extends '../base.html' %}
+{% load static %}
 {% block content %}
 
 <div class="container mt-5 text-center">
@@ -10,14 +11,14 @@
     </h6>
 
     <div class="container mt-5">
-        <form  class="form-class">
+        <form  class="form-class downloader_form">
             {% csrf_token %}
             <select class="form-select form-select-sm mb-3 resolution" aria-label=".form-select-sm example">
-            <option selected>Choose your resolution type</option>
-            <option value="1">One</option>
-            <option value="2">Two</option>
-            <option value="3">Three</option>
-                </select>
+                <option>Choose your resolution type</option>
+                <option value="1">One</option>
+                <option value="2">Two</option>
+                <option value="3">Three</option>
+            </select>
                 <div class="input-group mb-3">
                     <span class="input-group-text" id="basic-addon3"> Start Video Number </span>
                     <input type="number" class="form-control lower_limit" id="basic-url" aria-describedby="basic-addon3">
@@ -30,8 +31,9 @@
                     <span class="input-group-text" id="basic-addon3">Youtube Link</span>
                     <input type="text" class="form-control url_link" id="basic-url" aria-describedby="basic-addon3">
                 </div>
-            </div>
             <button type="submit" class="btn btn-primary btn-block submit_btn">Start Downloading ...</button>
+
+            </div>
         </form>
         
 
@@ -46,5 +48,5 @@
     </div>  
 
 </div>
-
+<script src="{% static 'js/app.js' %}"></script>
 {% endblock content %}
