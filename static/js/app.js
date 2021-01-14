@@ -10,9 +10,9 @@ const downloader_form = document.querySelector('.downloader_form')
 // fetch action
 async function postAPI(data){
 
-    const response= await fetch('/download',{
+    const response= await fetch('/video-download',{
         method: 'POST', 
-        mode: 'cors', 
+        // mode: 'cors', 
         headers: {
           'Content-Type': 'application/json'
         },
@@ -33,6 +33,28 @@ function submitRequest(){
     validateInput(upper_limit)
     validateInput(lower_limit)
     validateInput(url_link)
+
+
+    if (resolution_val && lower_limit_val && upper_limit_val && url_link_val){
+        postAPI({
+            'ul':upper_limit_val,
+            'll':lower_limit_val,
+            'url':url_link_val,
+            'playlist':true,
+            'resolution':'720p'
+        }).then(data=>{
+            console.log(data)
+        }).catch(e=>{
+            console.log(e)
+        })
+    }
+
+    console.log(JSON.stringify({
+        'ul':upper_limit_val,
+        'll':lower_limit_val,
+        'url':url_link_val,
+        'playlist':true
+    }))
 
     console.log(resolution_val,
         lower_limit_val,
