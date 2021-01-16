@@ -81,10 +81,6 @@ function submitRequest(){
             })
         }
     }
-    
-
-   
-    
 
 }
 

@@ -15,29 +15,52 @@ def file_zipper(playlist_id):
 def playlist_id_maker(playlist):
     return f'{playlist.title}_{"".join(random.choices(ascii_letters,k=7))}'
 
+def deleteFolder(name):
+    return shutil.rmtree(name,True)
 
-def playlist_downloader(body):
+def failSafeDownload(youtube,resolution,folder_name):
 
-    playlist=pytube.Playlist(body['url'])
-    folder_name = playlist_id_maker(playlist)
+    if resolution != 'audio':
+        video=youtube.streams.get_by_resolution(resolution)
+    else:
+        video=youtube.streams.get_audio_only()
 
-    for url in playlist.video_urls:
-        youtube = pytube.YouTube(url)
-        video=youtube.streams.get_by_resolution(body['resolution'])
-        # print(youtube.streams)
-        if video:
+    if video:
+        video.download(f'media/{folder_name}')
+    else:
+        if resolution=='360p' or resolution=='480':
+            video=youtube.streams.get_lowest_resolution()
+            video.download(f'media/{folder_name}')
+        elif resolution == 'audio':
+            video=youtube.streams.get_audio_only()
             video.download(f'media/{folder_name}')
         else:
             video=youtube.streams.get_highest_resolution()
             video.download(f'media/{folder_name}')
 
+def playlist_downloader(body):
+
+    playlist=pytube.Playlist(body['url'])
+    folder_name = playlist_id_maker(playlist)
+    upper_limit=body['ul']
+    lower_limit=body['ll']
+    resolution=body['resolution']
+
+    for url in playlist.video_urls[lower_limit:upper_limit]:
+        youtube = pytube.YouTube(url)
+        failSafeDownload(youtube,resolution,folder_name)
+
     file_zipper(folder_name)
+    deleteFolder(folder_name)
 
 
 def single_download(body):
     youtube = pytube.YouTube(body['url'])
     folder_name =  youtube.title
-    video=youtube.streams.get_by_resolution(body['resolution'])
+    resolution = body['resolution']
+
+    video=youtube.streams.get_by_resolution(resolution)
     video.download(f'media/{folder_name}')
 
     file_zipper(folder_name)
+    deleteFolder(folder_name)
