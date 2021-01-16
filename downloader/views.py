@@ -28,7 +28,7 @@ def home(request):
 
 @csrf_exempt
 def downloader(request):
-    print(json.loads(request.body))
+    
 
     if request.method=='POST':
         body=json.loads(request.body)
@@ -38,7 +38,7 @@ def downloader(request):
 
         else:
             media_link = single_download(body)
-            
+
         return JsonResponse({'message':'it worked','media':media_link})   
 
 
