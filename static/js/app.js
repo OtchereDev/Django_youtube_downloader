@@ -75,6 +75,7 @@ function submitRequest(){
                 console.log(data)
                 spinner_box.classList.add('d-none')
                 download_box.classList.remove('d-none')
+                download_link.setAttribute('href',data.media_link)
             }).catch(e=>{
                 console.log(e)
                 spinner_box.innerHTML='<h4>Sorry, an error happened while downloading your video. Please try again. Thank you</h4>'
