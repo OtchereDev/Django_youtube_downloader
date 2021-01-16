@@ -7,6 +7,9 @@ const submit_btn = document.querySelector('.submit_btn')
 const downloader_form = document.querySelector('.downloader_form')
 const playlist_option=document.querySelector('#flexRadioDefault1')
 const single_vid_option=document.querySelector('#flexRadioDefault2')
+const spinner_box=document.querySelector('.spinner_box')
+const download_box=document.querySelector('.download_box')
+const download_link=document.querySelector('.download_link')
 
 
 console.log(playlist_option,single_vid_option)
@@ -33,44 +36,56 @@ function submitRequest(){
     const upper_limit_val = upper_limit.value
     const url_link_val = url_link.value
 
+    
+
     if(playlist_option.checked){
         validateInput(resolution)
         validateInput(upper_limit)
         validateInput(lower_limit)
         validateInput(url_link)
+
+        if (resolution_val && lower_limit_val && upper_limit_val && url_link_val){
+            spinner_box.classList.remove('d-none')
+            postAPI({
+                'ul':upper_limit_val,
+                'll':lower_limit_val,
+                'url':url_link_val,
+                'playlist': true,
+                'resolution':resolution_val
+            }).then(data=>{
+                console.log(data)
+                spinner_box.classList.add('d-none')
+                download_box.classList.remove('d-none')
+            }).catch(e=>{
+                console.log(e)
+                spinner_box.innerHTML='<h4>Sorry, an error happened while downloading your video. Please try again. Thank you</h4>'
+            })
+        }
     }else{
         
         validateInput(resolution)
         validateInput(url_link)
+        if (resolution_val && url_link_val){
+            postAPI({
+                'url':url_link_val,
+                'playlist': false,
+                'resolution':resolution_val
+            }).then(data=>{
+                console.log(data)
+                spinner_box.classList.add('d-none')
+                download_box.classList.remove('d-none')
+            }).catch(e=>{
+                console.log(e)
+                spinner_box.innerHTML='<h4>Sorry, an error happened while downloading your video. Please try again. Thank you</h4>'
+
+            })
+        }
     }
     
 
-    console.log(Boolean(resolution_val))
-    // if (resolution_val && lower_limit_val && upper_limit_val && url_link_val){
-    //     postAPI({
-    //         'ul':upper_limit_val,
-    //         'll':lower_limit_val,
-    //         'url':url_link_val,
-    //         'playlist':true,
-    //         'resolution':'720p'
-    //     }).then(data=>{
-    //         console.log(data)
-    //     }).catch(e=>{
-    //         console.log(e)
-    //     })
-    // }
+   
+    
 
-    // console.log(JSON.stringify({
-    //     'ul':upper_limit_val,
-    //     'll':lower_limit_val,
-    //     'url':url_link_val,
-    //     'playlist':true
-    // }))
-
-    // console.log(resolution_val,
-    //     lower_limit_val,
-    //     upper_limit_val,
-    //     url_link_val)
 }
 
 
@@ -106,13 +121,11 @@ function disableFields(){
     }
 }
 
-// function calls
-// disableFields()
-
 // Event Handler
 downloader_form.addEventListener('submit',e=>{
     e.preventDefault()
     submitRequest()
 })
+
 single_vid_option.addEventListener('click',disableFields)
 playlist_option.addEventListener('click',disableFields)

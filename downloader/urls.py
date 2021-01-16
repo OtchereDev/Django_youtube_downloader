@@ -5,5 +5,5 @@ app_name='ytb_downloader'
 
 urlpatterns = [
     path('',home),
-    path('video-download',downloader),
+    # path('video-download',downloader),
 ]

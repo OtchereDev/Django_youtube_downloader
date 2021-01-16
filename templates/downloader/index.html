@@ -15,7 +15,7 @@
             {% csrf_token %}
             <select class="form-select form-select-sm mb-3 py-2 resolution" aria-label=".form-select-sm example">
                 <option value=''>Choose your format type</option>
-                <option value="1">MP3 (Audio)</option>
+                <option value="audio">MP3 (Audio)</option>
                 <option value="360p">MP4 (360p Video)</option>
                 <option value="480p">MP4 (480p Video)</option>
                 <option value="720p">MP4 (720p Video)</option>
@@ -55,12 +55,12 @@
         
 
     <div class="container spinner_cont my-5">
-        <div class="d-flex align-items-center">
+        <div class="d-flex align-items-center spinner_box d-none">
             <strong>Downloading videos...</strong>
             <div class="spinner-border ms-auto" role="status" aria-hidden="true"></div>
         </div>
-        <div class="container d-none">
-            <a href="#"> <span class="d-flex justify-content-center"> <ion-icon name="cloud-download-outline" class="mx-2" size="large"></ion-icon> Click Here to Download the .zip file</span> </a> 
+        <div class="container d-none download_box">
+            <a href="#" class='download_link'> <span class="d-flex justify-content-center"> <ion-icon name="cloud-download-outline" class="mx-2" size="large"></ion-icon> Click Here to Download the .zip file</span> </a> 
         </div>
     </div>  
 
