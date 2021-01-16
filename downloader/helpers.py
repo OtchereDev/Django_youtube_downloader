@@ -11,6 +11,8 @@ def file_zipper(playlist_id):
 
         shutil.make_archive(f'media/{playlist_id}_zip','zip',src)
 
+        return f'media/{playlist_id}_zip'
+
 
 def playlist_id_maker(playlist):
     return f'{playlist.title}_{"".join(random.choices(ascii_letters,k=7))}'
@@ -38,6 +40,11 @@ def failSafeDownload(youtube,resolution,folder_name):
             video=youtube.streams.get_highest_resolution()
             video.download(f'media/{folder_name}')
 
+
+def constructMediaLink(zipfile_name):
+    media_link=f'http://localhost:8000/media/{zipfile_name}'
+    return media_link
+
 def playlist_downloader(body):
 
     playlist=pytube.Playlist(body['url'])
@@ -50,8 +57,11 @@ def playlist_downloader(body):
         youtube = pytube.YouTube(url)
         failSafeDownload(youtube,resolution,folder_name)
 
-    file_zipper(folder_name)
+    zipfile_name = file_zipper(folder_name)
     deleteFolder(folder_name)
+    
+    return constructMediaLink(zipfile_name)
+
 
 
 def single_download(body):
@@ -59,8 +69,9 @@ def single_download(body):
     folder_name =  youtube.title
     resolution = body['resolution']
 
-    video=youtube.streams.get_by_resolution(resolution)
-    video.download(f'media/{folder_name}')
+    failSafeDownload(youtube,resolution,folder_name)
 
-    file_zipper(folder_name)
+    zipfile_name = file_zipper(folder_name)
     deleteFolder(folder_name)
+
+    return constructMediaLink(zipfile_name)
