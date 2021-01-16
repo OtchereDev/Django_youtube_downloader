@@ -21,7 +21,7 @@ def playlist_downloader(body):
     playlist=pytube.Playlist(body['url'])
     folder_name = playlist_id_maker(playlist)
 
-    for url in playlist.video_urls[:3]:
+    for url in playlist.video_urls:
         youtube = pytube.YouTube(url)
         video=youtube.streams.get_by_resolution(body['resolution'])
         # print(youtube.streams)

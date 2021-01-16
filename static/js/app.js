@@ -5,7 +5,11 @@ const upper_limit = document.querySelector('.upper_limit')
 const url_link = document.querySelector('.url_link')
 const submit_btn = document.querySelector('.submit_btn')
 const downloader_form = document.querySelector('.downloader_form')
+const playlist_option=document.querySelector('#flexRadioDefault1')
+const single_vid_option=document.querySelector('#flexRadioDefault2')
 
+
+console.log(playlist_option,single_vid_option)
 
 // fetch action
 async function postAPI(data){
@@ -29,37 +33,44 @@ function submitRequest(){
     const upper_limit_val = upper_limit.value
     const url_link_val = url_link.value
 
-    validateInput(resolution)
-    validateInput(upper_limit)
-    validateInput(lower_limit)
-    validateInput(url_link)
-
-
-    if (resolution_val && lower_limit_val && upper_limit_val && url_link_val){
-        postAPI({
-            'ul':upper_limit_val,
-            'll':lower_limit_val,
-            'url':url_link_val,
-            'playlist':true,
-            'resolution':'720p'
-        }).then(data=>{
-            console.log(data)
-        }).catch(e=>{
-            console.log(e)
-        })
+    if(playlist_option.checked){
+        validateInput(resolution)
+        validateInput(upper_limit)
+        validateInput(lower_limit)
+        validateInput(url_link)
+    }else{
+        
+        validateInput(resolution)
+        validateInput(url_link)
     }
+    
 
-    console.log(JSON.stringify({
-        'ul':upper_limit_val,
-        'll':lower_limit_val,
-        'url':url_link_val,
-        'playlist':true
-    }))
+    console.log(Boolean(resolution_val))
+    // if (resolution_val && lower_limit_val && upper_limit_val && url_link_val){
+    //     postAPI({
+    //         'ul':upper_limit_val,
+    //         'll':lower_limit_val,
+    //         'url':url_link_val,
+    //         'playlist':true,
+    //         'resolution':'720p'
+    //     }).then(data=>{
+    //         console.log(data)
+    //     }).catch(e=>{
+    //         console.log(e)
+    //     })
+    // }
 
-    console.log(resolution_val,
-        lower_limit_val,
-        upper_limit_val,
-        url_link_val)
+    // console.log(JSON.stringify({
+    //     'ul':upper_limit_val,
+    //     'll':lower_limit_val,
+    //     'url':url_link_val,
+    //     'playlist':true
+    // }))
+
+    // console.log(resolution_val,
+    //     lower_limit_val,
+    //     upper_limit_val,
+    //     url_link_val)
 }
 
 
@@ -67,7 +78,7 @@ function validateInput(input_type){
 
 
     if(input_type==resolution){
-        if(input_type.value=='Choose your resolution type'){
+        if(input_type.value==''){
             resolution.style.borderColor='Red'
         }else{
             resolution.style.borderColor='' 
@@ -85,8 +96,23 @@ function validateInput(input_type){
     }
 }
 
+function disableFields(){
+    if(single_vid_option.checked){
+        lower_limit.disabled=true
+        upper_limit.disabled=true
+    }else{
+        lower_limit.disabled=false
+        upper_limit.disabled=false
+    }
+}
+
+// function calls
+// disableFields()
+
 // Event Handler
 downloader_form.addEventListener('submit',e=>{
     e.preventDefault()
     submitRequest()
 })
+single_vid_option.addEventListener('click',disableFields)
+playlist_option.addEventListener('click',disableFields)
