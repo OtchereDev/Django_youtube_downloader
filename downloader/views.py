@@ -32,13 +32,14 @@ def downloader(request):
 
     if request.method=='POST':
         body=json.loads(request.body)
-        print(body['playlist'])
+        
         if body['playlist']:           
-            playlist_downloader(body)
+            media_link = playlist_downloader(body)
 
         else:
-            single_download(body)
-        return JsonResponse({'message':'it worked'})   
+            media_link = single_download(body)
+            
+        return JsonResponse({'message':'it worked','media':media_link})   
 
 
 
