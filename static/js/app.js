@@ -12,8 +12,6 @@ const download_box=document.querySelector('.download_box')
 const download_link=document.querySelector('.download_link')
 
 
-console.log(playlist_option,single_vid_option)
-
 // fetch action
 async function postAPI(data){
 
