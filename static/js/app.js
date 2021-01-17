@@ -30,8 +30,9 @@ async function postAPI(data){
 // functions 
 function submitRequest(){
     const resolution_val = resolution.value
-    const lower_limit_val = lower_limit.value
-    const upper_limit_val = upper_limit.value
+    let lower_limit_val = lower_limit.value
+    let upper_limit_val 
+    // let upper_limit_val = upper_limit.value
     const url_link_val = url_link.value
 
     
@@ -42,11 +43,15 @@ function submitRequest(){
         validateInput(lower_limit)
         validateInput(url_link)
 
+        upper_limit_val=validateRange(resolution_val,lower_limit_val,upper_limit.value)
+        submit_btn.disabled=true
+
         if (resolution_val && lower_limit_val && upper_limit_val && url_link_val){
             spinner_box.classList.remove('d-none')
+            
             postAPI({
                 'ul':upper_limit_val,
-                'll':lower_limit_val,
+                'll':parseInt(lower_limit_val),
                 'url':url_link_val,
                 'playlist': true,
                 'resolution':resolution_val
@@ -55,8 +60,10 @@ function submitRequest(){
                 spinner_box.classList.add('d-none')
                 download_box.classList.remove('d-none')
                 download_link.setAttribute('href',data.media_link)
+                submit_btn.disabled=false
             }).catch(e=>{
                 console.log(e)
+                submit_btn.disabled=false
                 spinner_box.innerHTML='<h4>Sorry, an error happened while downloading your video. Please try again. Thank you</h4>'
             })
         }
@@ -115,6 +122,36 @@ function disableFields(){
         lower_limit.disabled=false
         upper_limit.disabled=false
     }
+}
+
+function validateRange(resolution_val,lower_limit_val,upper_limit_val){
+
+    const diff= parseInt(upper_limit_val)-parseInt(lower_limit_val)
+   
+
+    if(resolution_val==='360p' && diff>20){
+        upper_limit_val=parseInt(lower_limit_val)+19
+        upper_limit.value=upper_limit_val
+        return upper_limit_val
+    }else if(resolution_val==='480p' && diff>15){
+        upper_limit_val=parseInt(lower_limit_val)+14
+        upper_limit.value=upper_limit_val
+        return upper_limit_val
+    }else if (resolution_val==='720p' && diff>10){
+        upper_limit_val=parseInt(lower_limit_val)+9
+        upper_limit.value=upper_limit_val
+        return upper_limit_val
+
+    }else if (resolution_val==='1080p' && diff>5){
+        upper_limit_val=parseInt(lower_limit_val)+4
+        upper_limit.value=upper_limit_val
+        return upper_limit_val
+
+    }else{
+     upper_limit_val = upper_limit.value
+     return upper_limit_val
+    }
+
 }
 
 // Event Handler
