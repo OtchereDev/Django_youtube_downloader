@@ -18,7 +18,8 @@ def playlist_id_maker(playlist):
     return f'{playlist.title}_{"".join(random.choices(ascii_letters,k=7))}'
 
 def deleteFolder(name):
-    return shutil.rmtree(name,True)
+    print('deleting_file')
+    shutil.rmtree(name,True)
 
 def failSafeDownload(youtube,resolution,folder_name):
 
@@ -49,13 +50,13 @@ def playlist_downloader(body):
 
     playlist=pytube.Playlist(body['url'])
     folder_name = playlist_id_maker(playlist)
-    upper_limit=body['ul']
-    lower_limit=body['ll']
+    upper_limit=int(body['ul'])
+    lower_limit=int(body['ll'])
     resolution=body['resolution']
 
-    for url in playlist.video_urls[lower_limit:upper_limit]:
-        youtube = pytube.YouTube(url)
-        failSafeDownload(youtube,resolution,folder_name)
+    # for url in playlist.video_urls[lower_limit:upper_limit]:
+    #     youtube = pytube.YouTube(url)
+    #     failSafeDownload(youtube,resolution,folder_name)
 
     zipfile_name = file_zipper(folder_name)
     deleteFolder(folder_name)
@@ -66,7 +67,7 @@ def playlist_downloader(body):
 
 def single_download(body):
     youtube = pytube.YouTube(body['url'])
-    folder_name =  youtube.title
+    folder_name =  playlist_id_maker(youtube)
     resolution = body['resolution']
 
     failSafeDownload(youtube,resolution,folder_name)
