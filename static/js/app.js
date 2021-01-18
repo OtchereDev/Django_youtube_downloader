@@ -56,16 +56,13 @@ function submitRequest(){
                 'playlist': true,
                 'resolution':resolution_val
             }).then(data=>{
-                console.log(data.media,'passed')
-                spinner_box.classList.add('d-none')
                 
-                // console.log(data.media,data['media'])
+                spinner_box.classList.add('d-none')               
                 download_link.setAttribute('href',data['media'])
-                // download_link.setAttribute('href','http://localhost:8000/media/media/Short Videos_vRDEXpE_zip')
                 download_box.classList.remove('d-none')
                 submit_btn.disabled=false
+
             }).catch(e=>{
-                // console.log(e,'from herome')
                 submit_btn.disabled=false
                 spinner_box.innerHTML='<h4>Sorry, an error happened while downloading your video. Please try again. Thank you</h4>'
             })
@@ -81,13 +78,11 @@ function submitRequest(){
                 'playlist': false,
                 'resolution':resolution_val
             }).then(data=>{
-                // console.log(data,'i pass')
                 spinner_box.classList.add('d-none')
                 download_box.classList.remove('d-none')
-                console.log(data.media,data['media'])
                 download_link.setAttribute('href',data.media_link)
             }).catch(e=>{
-                // console.log(e,'error i here')
+
                 spinner_box.innerHTML='<h4>Sorry, an error happened while downloading your video. Please try again. Thank you</h4>'
 
             })
