@@ -56,7 +56,7 @@ function submitRequest(){
                 'playlist': true,
                 'resolution':resolution_val
             }).then(data=>{
-                // console.log(data.media,'passed')
+                console.log(data.media,'passed')
                 spinner_box.classList.add('d-none')
                 
                 // console.log(data.media,data['media'])

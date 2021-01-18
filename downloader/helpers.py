@@ -4,6 +4,7 @@ import shutil
 from os import path
 import random
 from string import ascii_letters
+from django.conf import settings
 
 def file_zipper(playlist_id):
     if path.exists(f'media/{playlist_id}'):
@@ -18,8 +19,9 @@ def playlist_id_maker(playlist):
     return f'{playlist.title}_{"".join(random.choices(ascii_letters,k=7))}'
 
 def deleteFolder(name):
-    print('deleting_file')
-    shutil.rmtree(name,True)
+    BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
+    shutil.rmtree(os.path.join(BASE_DIR,'media',name),True)
 
 def failSafeDownload(youtube,resolution,folder_name):
 
@@ -54,9 +56,9 @@ def playlist_downloader(body):
     lower_limit=int(body['ll'])
     resolution=body['resolution']
 
-    # for url in playlist.video_urls[lower_limit:upper_limit]:
-    #     youtube = pytube.YouTube(url)
-    #     failSafeDownload(youtube,resolution,folder_name)
+    for url in playlist.video_urls[lower_limit:upper_limit]:
+        youtube = pytube.YouTube(url)
+        failSafeDownload(youtube,resolution,folder_name)
 
     zipfile_name = file_zipper(folder_name)
     deleteFolder(folder_name)
