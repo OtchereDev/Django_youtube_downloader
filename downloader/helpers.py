@@ -3,7 +3,7 @@ import os
 import shutil
 from os import path
 import random
-from string import ascii_letters
+from string import ascii_letters,punctuation
 from django.conf import settings
 
 from .models import FileSystem
@@ -19,7 +19,9 @@ def file_zipper(playlist_id):
 
 
 def playlist_id_maker(playlist):
-    return f'{playlist.title}_{"".join(random.choices(ascii_letters,k=7))}'
+    
+    playlist_title=(playlist.title).translate({ord(x): '' for x in punctuation}).replace(' ','_')
+    return f'{playlist_title}_{"".join(random.choices(ascii_letters,k=7))}'
 
 def deleteFolder(name):
     BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -48,9 +50,7 @@ def failSafeDownload(youtube,resolution,folder_name):
 
 
 def constructMediaLink(zipfile_name):
-    zipfile_name=zipfile_name.replace(' ','_')
-    print(zipfile_name)
-    media_link=f'http://localhost:8000/media/{zipfile_name}'
+    media_link=f'http://localhost:8000/{zipfile_name}.zip'
     return media_link
 
 def playlist_downloader(body):
@@ -66,8 +66,9 @@ def playlist_downloader(body):
         failSafeDownload(youtube,resolution,folder_name)
 
     zipfile_name = file_zipper(folder_name)
-    # FileSystem.objects.create(output_file=zipfile_name)
+    
     deleteFolder(folder_name)
+   
     
     return constructMediaLink(zipfile_name)
 
