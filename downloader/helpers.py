@@ -6,6 +6,9 @@ import random
 from string import ascii_letters
 from django.conf import settings
 
+from .models import FileSystem
+
+
 def file_zipper(playlist_id):
     if path.exists(f'media/{playlist_id}'):
         src= path.realpath(f'media/{playlist_id}')
@@ -45,6 +48,8 @@ def failSafeDownload(youtube,resolution,folder_name):
 
 
 def constructMediaLink(zipfile_name):
+    zipfile_name=zipfile_name.replace(' ','_')
+    print(zipfile_name)
     media_link=f'http://localhost:8000/media/{zipfile_name}'
     return media_link
 
@@ -61,6 +66,7 @@ def playlist_downloader(body):
         failSafeDownload(youtube,resolution,folder_name)
 
     zipfile_name = file_zipper(folder_name)
+    # FileSystem.objects.create(output_file=zipfile_name)
     deleteFolder(folder_name)
     
     return constructMediaLink(zipfile_name)
