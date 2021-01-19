@@ -58,7 +58,7 @@ def playlist_downloader(body):
     playlist=pytube.Playlist(body['url'])
     folder_name = playlist_id_maker(playlist)
     upper_limit=int(body['ul'])
-    lower_limit=int(body['ll'])
+    lower_limit=int(body['ll'])-1
     resolution=body['resolution']
 
     for url in playlist.video_urls[lower_limit:upper_limit]:

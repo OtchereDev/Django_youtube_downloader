@@ -45,6 +45,9 @@ function submitRequest(){
 
         upper_limit_val=validateRange(resolution_val,lower_limit_val,upper_limit.value)
         submit_btn.disabled=true
+        if(!download_box.classList.contains('d-none')){
+            download_box.classList.add('d-none')
+        }
 
         if (resolution_val && lower_limit_val && upper_limit_val && url_link_val){
             spinner_box.classList.remove('d-none')
